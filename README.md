@@ -28,9 +28,11 @@ Aquest sistema agafa una llesca de pa, la mou sota una càmera per analitzar el 
 
 * Raspberry Pi Zero
 * Càmera Raspberry Pi (Picamera2)
-* Font d'alimentació LM2596 DC-DC
-* Solenoide FDP-270A DC 12V
-* Motor DC controlat per pont H (PWM amb gpiozero)
+* Font d'alimentació ATX 12V DC-DC
+* Solenoide DC 12V
+* Relé mecànic
+* Motor DC 12V
+* Controladora de motor IBT-2
 * LED indicador
 
 ---
