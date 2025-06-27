@@ -84,7 +84,9 @@ Projecte_rovello/
 ├── vision_module.py
 └── imatges/
 ```
+## Video explicatiu
 
+https://drive.google.com/file/d/1s0li1pyr3_-Z9FdZ7bmrCi1DlDDNkcoP/view?usp=sharing
 
 ## Autors
 
