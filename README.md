@@ -1,51 +1,41 @@
-# Rovelló – Robot Automatitzat per Torrar Pa i Dispensar Oli
+---
 
-Aquest projecte controla un sistema automàtic que:
-1. Mou una llesca de pa sota una càmera.
-2. Avalua si està prou torrada mitjançant visió per computador.
-3. Dispença oli mitjançant un solenoide.
-4. Finalitza portant la llesca fins al plat.
+# Rovello – UAB 2025
+
+Un projecte de robòtica fet per a automatitzar el procés de torrat de pa amb visió per computador, control de motors i dispensació d’oli.
 
 ---
 
-## Estructura del projecte
+## Què fa aquest robot?
 
-- `main.py`  
-  Punt d'entrada. Només crea i executa el `SystemManager`.
-
-- `system_manager.py`  
-  Coordinador principal. Gestiona el flux: moure cinta → analitzar → oli → plat.
-
-- `vision_module.py`  
-  Captura imatges i calcula el grau de torrat analitzant la lluminositat del pa. Utilitza la càmera Pi (`picamera2`) i OpenCV per identificar la peça de pa i mesurar com de torrada està.
-
-- `actuator_control.py`  
-  Control del motor de la cinta amb dos pins PWM (direcció i velocitat).
-
-- `oil_dispenser_control.py`  
-  Activa el solenoide que dispença oli durant un temps configurat.
-
-- `config_module.py`  
-  Conté tots els paràmetres editables del sistema: nivell de torrat, temps de moviment, durada de l'oli, etc.
-
-- `toasting_module.py`  
-  (Opcional / no utilitzat) Conté una altra aproximació per avaluar el nivell de torrat, però no està integrat.
+Aquest sistema agafa una llesca de pa, la mou sota una càmera per analitzar el grau de torrat i, si el pa està correctament torrat, el porta a una zona on se li afegeix oli mitjançant un solenoide. Finalment, el pa és traslladat fins al plat.
 
 ---
 
-## Funcionament de la visió per computador
+## Mòduls del sistema
 
-1. Es captura una imatge amb la càmera Pi.
-2. Es converteix a espai de color HSV.
-3. Es detecta primer la cinta blava i després es busca una forma quadrada (la llesca).
-4. Es calcula el grau de torrat a partir del canal de lluminositat (V):
-   - Torrat = `1.0 - (lluminositat mitjana / 255)`
-   - El valor resultant és entre `0.0` (pa molt clar) i `1.0` (molt torrat).
-5. Si el valor supera el llindar definit a `config_module.py`, el pa és considerat **torrat**.
+* **main.py** – Arxiu principal que executa tot el procés.
+* **system\_manager.py** – Controlador principal que coordina visió, motors i oli.
+* **vision\_module.py** – Captura imatges i calcula el grau de torrat.
+* **actuator\_control.py** – Control del motor de la cinta transportadora.
+* **oil\_dispenser\_control.py** – Control del solenoide d’oli.
+* **toasting\_module.py** – Lògica de decisió basada en el torrat.
+* **config\_module.py** – Paràmetres configurables del sistema.
 
 ---
 
-## ⚙️ Com ajustar els paràmetres
+## Hardware utilitzat
+
+* Raspberry Pi Zero
+* Càmera Raspberry Pi (Picamera2)
+* Font d'alimentació LM2596 DC-DC
+* Solenoide FDP-270A DC 12V
+* Motor DC controlat per pont H (PWM amb gpiozero)
+* LED indicador
+
+---
+
+## Com ajustar els paràmetres
 
 Els paràmetres estan definits a `config_module.py`. Pots editar-los segons el comportament del sistema:
 
@@ -55,3 +45,52 @@ self.cam_time        = 1.0    # Temps per moure el pa sota la càmera
 self.oil_time        = 1.5    # Temps per moure el pa a la zona d'oli
 self.plate_time      = 2.0    # Temps per moure el pa fins al plat
 self.oil_active_time = 1.0    # Temps d'activació del solenoide d'oli
+```
+
+---
+
+## Com executar-ho
+
+1. Connecta't a la Raspberry Pi per SSH:
+
+   ```bash
+   ssh pi@raspberrypi.local
+   ```
+
+2. Navega al directori del projecte:
+
+   ```bash
+   cd /home/pi/Prova/Projecte_rovello
+   ```
+
+3. Executa el programa principal:
+
+   ```bash
+   python3 main.py
+   ```
+
+---
+
+## 📂 Estructura de carpetes
+
+```
+Projecte_rovello/
+├── actuator_control.py
+├── config_module.py
+├── main.py
+├── oil_dispenser_control.py
+├── system_manager.py
+├── toasting_module.py
+├── vision_module.py
+└── imatges/
+```
+
+
+## Autors
+
+Pere Llauradó Adeva
+Marçal Armengol Romero
+Gerard Purtí Ramirez
+Jordi Viera Antequera
+
+Universitat Autonoma de Barcelona Facultat d'Enginyeria
